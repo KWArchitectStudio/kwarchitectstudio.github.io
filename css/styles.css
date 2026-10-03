@@ -1187,6 +1187,13 @@ nav a:hover {
   margin: 0 0 1.25rem;
 }
 
+/* Mobile — match testimonial quote size to the services body text size */
+@media (max-width: 767px) {
+  .testimonial-slide blockquote p {
+    font-size: var(--text-sm);
+  }
+}
+
 /* Attribution — bold (Req 8.4) */
 .testimonial-slide cite {
   font-style: normal;

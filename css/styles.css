@@ -566,6 +566,20 @@ nav a:hover {
     justify-content: space-between;
   }
 
+  /* Pin the top row order explicitly so toggling the mobile nav dropdown
+     cannot shift the logo or Get in touch button out of place. */
+  .logo {
+    order: 1;
+  }
+
+  .site-nav {
+    order: 2;
+  }
+
+  .header-actions {
+    order: 3;
+  }
+
   /* Show hamburger toggle */
   .nav-toggle {
     display: flex;

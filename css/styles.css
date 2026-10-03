@@ -890,8 +890,8 @@ nav a:hover {
    line, and ease back the H1 slightly so it balances with the smaller eyebrow. */
 @media (max-width: 767px) {
   .hero-eyebrow {
-    font-size: 0.7rem;
-    letter-spacing: 0.08em;
+    font-size: 0.6rem;
+    letter-spacing: 0.03em;
   }
 
   .hero-content h1 {
@@ -914,7 +914,6 @@ nav a:hover {
 /* ---- Section heading ---- */
 .values-section {
   text-align: center;
-  background-color: #f4f4f5;
   border-bottom: 1px solid var(--color-border);
 }
 

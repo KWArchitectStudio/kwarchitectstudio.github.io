@@ -591,13 +591,10 @@ nav a:hover {
     display: none;
   }
 
+  /* Get in touch CTA does not fit comfortably on small screens; hidden on
+     mobile (still available via the Contact nav link). Desktop is untouched. */
   .header-actions {
-    gap: 0.75rem;
-  }
-
-  .header-cta {
-    font-size: var(--text-xs);
-    padding: 0.4rem 0.9rem;
+    display: none;
   }
 
   /* Hide nav links by default on mobile */

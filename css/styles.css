@@ -557,23 +557,24 @@ nav a:hover {
 
 @media (max-width: 767px) {
 
-  /* Collapse the 3-column grid to a wrapping flex row: logo | toggle+actions,
-     with the nav dropdown expanding full-width below */
+  /* Collapse the 3-column grid to a simple flex row: logo | toggle+actions.
+     The nav dropdown panel is positioned absolutely so opening/closing it
+     never reflows the header row (logo and Get in touch stay fixed in place). */
   .site-header {
     position: relative;
     display: flex;
-    flex-wrap: wrap;
+    align-items: center;
     justify-content: space-between;
   }
 
-  /* Pin the top row order explicitly so toggling the mobile nav dropdown
-     cannot shift the logo or Get in touch button out of place. */
   .logo {
     order: 1;
   }
 
   .site-nav {
     order: 2;
+    display: flex;
+    align-items: center;
   }
 
   .header-actions {
@@ -604,18 +605,24 @@ nav a:hover {
     display: none;
   }
 
-  /* Open state — vertical dropdown */
+  /* Open state - vertical dropdown panel.
+     Positioned absolutely and anchored to .site-header so it overlays below
+     the header without affecting the flex layout of logo / toggle / CTA. */
   .nav-links.open {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 0;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
     width: 100%;
-    /* Expand below the header row */
-    order: 3;           /* pushes list below logo + toggle row */
     padding: 0.5rem 0 1rem;
     border-top: 1px solid var(--color-border);
     background-color: var(--color-white);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    z-index: 20;
   }
 
   .nav-links.open li {
@@ -641,10 +648,6 @@ nav a:hover {
     display: none;  /* remove underline indicator; weight/color is enough */
   }
 
-  /* Ensure logo and toggle sit in the same row */
-  .logo {
-    flex: 1;
-  }
 }
 
 

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://www.kwarchistudio.co.nz/sitemap.xml

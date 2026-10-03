@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact | KW Architect Studio</title>
+  <meta name="description" content="Get in touch with Karyn Walker at KW Architect Studio. Call, email or use our contact form to start a conversation about your residential architecture project.">
+  <link rel="canonical" href="https://www.kwarchistudio.co.nz/contact.html">
+  <meta property="og:title" content="Contact | KW Architect Studio">
+  <meta property="og:description" content="Get in touch with Karyn Walker at KW Architect Studio. Call, email or use our contact form to start a conversation about your residential architecture project.">
+  <meta property="og:image" content="https://www.kwarchistudio.co.nz/images/hero-pergola.jpg">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.kwarchistudio.co.nz/contact.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.kwarchistudio.co.nz/index.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Contact",
+        "item": "https://www.kwarchistudio.co.nz/contact.html"
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="page-contact">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header class="site-header">
+    <a href="index.html" class="logo"><img src="images/kw-architect-studio-logo.jpg" alt="KW Architect Studio" class="logo-img"></a>
+    <nav aria-label="Main navigation" class="site-nav">
+      <button class="nav-toggle" aria-label="Open navigation menu" aria-expanded="false">
+        &#9776;
+      </button>
+      <ul class="nav-links" role="list">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="process.html">Process</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="contact.html" aria-current="page">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="header-actions">
+      <a href="https://www.facebook.com/kwarchistudio" class="header-social-link" aria-label="KW Architect Studio on Facebook" target="_blank" rel="noopener noreferrer">
+        <img src="images/facebook-icon.png" alt="" class="header-social-icon">
+      </a>
+      <a href="https://www.linkedin.com/in/karyn-walker-373308309" class="header-social-link" aria-label="KW Architect Studio on LinkedIn" target="_blank" rel="noopener noreferrer">
+        <img src="images/linkedin-icon.png" alt="" class="header-social-icon">
+      </a>
+      <a href="contact.html" class="btn btn-pizza-outline header-cta">Get in touch</a>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="contact-section container scroll-reveal">
+
+      <div class="contact-info">
+        <h1>Let's talk.</h1>
+        <p class="contact-subtext">I look forward to hearing about your vision and working with you on your project.</p>
+        <div class="contact-details">
+          <p>Phone: <a href="tel:02796944478">027 969 4478</a></p>
+          <p>Email: <a href="mailto:karyn@KWArchiStudio.co.nz">karyn@KWArchiStudio.co.nz</a></p>
+          <p class="contact-location"><span class="contact-location-label">Paraparaumu Studio:</span> By appointment only.</p>
+        </div>
+      </div>
+
+      <div class="contact-form-wrap">
+        <form class="contact-form" id="contact-form" action="https://formspree.io/f/{id}" method="POST" novalidate>
+
+          <!-- Honeypot field — hidden from humans (Req 12.7, 15.5) -->
+          <div class="honeypot-field">
+            <label for="address">Leave this field empty</label>
+            <input type="text" id="address" name="address" aria-hidden="true" tabindex="-1" autocomplete="off">
+          </div>
+
+          <!-- Name field -->
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required autocomplete="name"
+                   aria-required="true">
+            <span class="field-error" id="name-error" role="alert"></span>
+          </div>
+
+          <!-- Phone field -->
+          <div class="form-group">
+            <label for="phone">Phone</label>
+            <input type="tel" id="phone" name="phone" autocomplete="tel">
+          </div>
+
+          <!-- Email field -->
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required autocomplete="email"
+                   aria-required="true">
+            <span class="field-error" id="email-error" role="alert"></span>
+          </div>
+
+          <!-- Message field -->
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" required autocomplete="off"
+                      aria-required="true"></textarea>
+            <span class="field-error" id="message-error" role="alert"></span>
+          </div>
+
+          <div class="form-submit">
+            <button type="submit" class="btn btn-pizza-outline">Send message</button>
+          </div>
+
+          <div class="form-success" hidden>Message Sent</div>
+          <div class="form-error" hidden>Something went wrong. Please try again.</div>
+
+        </form>
+      </div>
+
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-row">
+      <div class="footer-col footer-col-left">
+        <img src="images/nzrab-white.png" alt="NZRAB" class="footer-logo-img footer-logo-img-nzrab">
+      </div>
+      <div class="footer-col footer-col-center">
+        <img src="images/2026-practice-logo-white.png" alt="KW Architect Studio" class="footer-logo-img">
+      </div>
+      <div class="footer-col footer-col-right">
+        <a href="https://www.facebook.com/kwarchistudio" class="footer-social-link" aria-label="KW Architect Studio on Facebook" target="_blank" rel="noopener noreferrer">
+          <img src="images/facebook-icon.png" alt="" class="footer-social-icon">
+        </a>
+        <a href="https://www.linkedin.com/in/karyn-walker-373308309" class="footer-social-link" aria-label="KW Architect Studio on LinkedIn" target="_blank" rel="noopener noreferrer">
+          <img src="images/linkedin-icon.png" alt="" class="footer-social-icon">
+        </a>
+      </div>
+    </div>
+    <p>&copy; <span id="footer-year">2025</span> KW Architect Studio. All rights reserved.</p>
+  </footer>
+
+  <script src="js/nav.js" defer></script>
+  <script src="js/page-transition.js" defer></script>
+  <script src="js/scroll-reveal.js" defer></script>
+  <script src="js/contact.js" defer></script>
+</body>
+</html>

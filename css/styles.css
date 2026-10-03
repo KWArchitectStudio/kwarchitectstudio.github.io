@@ -1,0 +1,2234 @@
+/* ==========================================================================
+   KW Architect Studio — styles.css
+   Single shared stylesheet for all five pages.
+   Organised sections:
+     1. Design Tokens (CSS Custom Properties)
+     2. CSS Reset & Base
+     3. Typography
+     4. Layout Utilities
+     5. Buttons & Interactive Elements — Base
+     6. Skip Link
+     7. Navigation Bar
+     8. Navigation Bar — Mobile Responsive
+     9. Footer
+    10. Image Placeholders
+    11. Home Page — Hero
+    12. Home Page — Values
+    13. Home Page — Service Cards
+    14. Home Page — Regional CTA
+    15. Home Page — Testimonials
+    16. About Page
+    17. Process Page
+    18. Projects Page
+    19. Contact Page & Form
+    20. Scroll Reveal
+    21. Page Transitions
+   ========================================================================== */
+
+
+/* ============================================================================
+   0. FONT FACES - Jost (Google Fonts, Open Font License, no
+   redistribution restrictions). Loaded via a <link> tag in each page's
+   <head>; no local font files are bundled with this repository.
+   Chosen for its slender, interwar-era character, closer to the
+   original Gill Sans Nova than Montserrat (which read too bold).
+   ============================================================================ */
+
+
+/* ==========================================================================
+   1. DESIGN TOKENS
+   ========================================================================== */
+
+:root {
+  /* --- Colour Tokens (Resene palette, matches kwarchistudio.co.nz) --- */
+  --color-bg:        #ffffff;   /* white page background */
+  --color-text:      #26272c;   /* Resene Shadowland — near-black body text/headings */
+  --color-accent:    #8f3f2a;   /* Resene Fire — rust/terracotta CTAs, links, hover */
+  --color-accent-dk: #6f3120;   /* darker shade of Resene Fire — active/pressed states */
+  --color-muted:     #929395;   /* Resene Shadowland 50% tint — secondary/muted text */
+  --color-border:    #c9c9ca;   /* Resene Shadowland 10% tint — borders, placeholders */
+  --color-secondary: #627564;   /* Resene Half Rivergum — dark green, secondary accent */
+  --color-highlight: #bf8d3c;   /* Resene Pizza — mustard/gold, tertiary highlight */
+  --color-white:     #ffffff;
+
+  /* --- Typography Tokens --- */
+  --font-heading: 'Jost', Helvetica, Arial, sans-serif;
+  --font-body:    'Jost', Helvetica, Arial, sans-serif;
+
+  /* Text scale */
+  --text-xs:   0.875rem;  /* 14px */
+  --text-sm:   1rem;      /* 16px */
+  --text-base: 1rem;      /* 16px */
+  --text-lg:   1.125rem;
+  --text-xl:   1.25rem;
+  --text-2xl:  1.5rem;
+  --text-3xl:  2rem;
+  --text-4xl:  2.75rem;
+
+  /* --- Spacing & Layout Tokens --- */
+  --section-gap:    4rem;     /* 64px — min vertical spacing between top-level sections */
+  --container-max:  1200px;
+  --container-pad:  1.5rem;   /* horizontal padding inside .container */
+
+  /* --- Breakpoints (reference only — used in media queries below) ---
+     --bp-sm:  480px   Values grid 2-col
+     --bp-md:  768px   Most multi-col layouts; nav collapse
+     --bp-lg:  1024px  Hero image height change
+     --bp-xl:  1440px  Max tested viewport
+  */
+}
+
+
+/* ==========================================================================
+   2. CSS RESET & BASE
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  /* Prevent horizontal scroll at all viewport widths */
+  overflow-x: hidden;
+  /* Smooth in-page scrolling for anchor links (e.g. skip link, future
+     on-page nav). Respects reduced-motion below. */
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background-color: var(--color-bg);
+  font-weight: 300;
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+a:hover {
+  color: var(--color-accent);
+}
+
+
+/* ==========================================================================
+   3. TYPOGRAPHY
+   ========================================================================== */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--color-text);
+}
+
+h1 {
+  font-size: var(--text-4xl);
+  font-weight: 400;
+}
+
+h2 {
+  font-size: var(--text-3xl);
+  font-weight: 400;
+}
+
+h3 {
+  font-size: var(--text-2xl);
+  font-weight: 500;
+}
+
+p {
+  font-size: var(--text-base);
+  line-height: 1.7;
+  color: var(--color-text);
+}
+
+/* Secondary / muted text */
+.text-muted {
+  color: var(--color-muted);
+  font-size: var(--text-sm);
+}
+
+/* Secondary text — 14px floor */
+.text-secondary {
+  color: var(--color-muted);
+  font-size: var(--text-xs);  /* 14px */
+}
+
+/* Responsive font-size floor for body text on small viewports */
+@media (max-width: 767px) {
+  body {
+    font-size: var(--text-sm); /* 16px minimum */
+  }
+
+  .text-secondary,
+  .text-muted {
+    font-size: var(--text-xs); /* 14px minimum for secondary text */
+  }
+}
+
+
+/* ==========================================================================
+   4. LAYOUT UTILITIES
+   ========================================================================== */
+
+/* Centred content container */
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--container-pad);
+  width: 100%;
+}
+
+/* Top-level page sections — vertical spacing */
+main > section,
+main > .section {
+  padding-top: var(--section-gap);
+  padding-bottom: var(--section-gap);
+}
+
+/* Main content area grows to push footer down */
+main {
+  flex: 1;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* Visually hidden utility (accessible hide) */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+
+/* ==========================================================================
+   5. BUTTONS & INTERACTIVE ELEMENTS — BASE
+   (Full button styles expanded in Section 9; hover/focus basics here)
+   ========================================================================== */
+
+/* Base button / CTA */
+.btn {
+  display: inline-block;
+  padding: 0.75rem 2rem;
+  background-color: var(--color-accent);
+  color: var(--color-white);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border: 2px solid var(--color-accent);
+  border-radius: 0;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  /* Ensure minimum 44×44 px touch target on mobile (Req 14.4) */
+  min-height: 44px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn:hover,
+.btn:focus-visible {
+  background-color: var(--color-accent-dk);
+  border-color: var(--color-accent-dk);
+  color: var(--color-white);
+}
+
+.btn:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+/* Outline / ghost button variant */
+.btn-outline {
+  background-color: transparent;
+  color: var(--color-accent);
+}
+
+.btn-outline:hover,
+.btn-outline:focus-visible {
+  background-color: var(--color-accent);
+  color: var(--color-white);
+}
+
+/* White button with Resene Pizza outline; colours swap on hover (About page CTA) */
+.btn-pizza-outline {
+  background-color: var(--color-white);
+  color: #BF8D3C;
+  border: 2px solid #BF8D3C;
+  border-radius: 999px;
+  padding: 0.5rem 1.25rem;
+  text-transform: none;
+  font-variant-caps: normal;
+  letter-spacing: normal;
+  font-weight: 400;
+}
+
+.btn-pizza-outline:hover,
+.btn-pizza-outline:focus-visible {
+  background-color: #BF8D3C;
+  color: var(--color-white);
+  border-color: #BF8D3C;
+}
+
+.btn-pizza-outline:focus-visible {
+  outline: 3px solid #BF8D3C;
+  outline-offset: 3px;
+}
+
+/* Solid Resene Pizza button - used on colour-block sections (Regional CTA) */
+.btn-pizza-solid {
+  background-color: #BF8D3C;
+  color: var(--color-white);
+  border: 2px solid #BF8D3C;
+  border-radius: 999px;
+  padding: 0.5rem 1.25rem;
+  text-transform: none;
+  letter-spacing: normal;
+  font-weight: 500;
+}
+
+.btn-pizza-solid:hover,
+.btn-pizza-solid:focus-visible {
+  background-color: var(--color-white);
+  color: #BF8D3C;
+  border-color: var(--color-white);
+}
+
+.btn-pizza-solid:focus-visible {
+  outline: 3px solid var(--color-white);
+  outline-offset: 3px;
+}
+
+/* Global focus indicator — visible focus ring on all interactive elements (Req 15.7) */
+:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Small caps eyebrow label used above section headings across the home page */
+.section-eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #BF8D3C;
+  margin-bottom: 0.75rem;
+  text-align: center;
+}
+
+/* Navigation links hover transition (Req 13.6) */
+nav a {
+  transition: color 0.15s ease;
+}
+
+nav a:hover {
+  color: var(--color-accent);
+}
+
+
+/* ==========================================================================
+   6. SKIP LINK
+   ========================================================================== */
+
+.skip-link {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 9999;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--color-accent);
+  color: var(--color-white);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  text-decoration: none;
+  transform: translateY(-100%);
+  transition: transform 0.2s ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+
+/* ==========================================================================
+   7. NAVIGATION BAR
+   ========================================================================== */
+
+/* Three-part header: logo (left) | nav (centred) | actions (right) */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1.5rem;
+  background-color: var(--color-white);
+  border-bottom: 1px solid var(--color-border);
+  padding: 0.75rem var(--container-pad);
+}
+
+/* Logo */
+.logo {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  transition: opacity 0.15s ease;
+}
+
+.logo:hover {
+  opacity: 0.8;
+}
+
+.logo-img {
+  height: 64px;
+  width: auto;
+  max-width: 260px;
+  display: block;
+}
+
+/* ---- Desktop nav links ---- */
+
+/* The <nav> element wraps both the toggle and the links list; centred as the grid middle column */
+.site-header nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Right-hand actions group: social icons + CTA button */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-self: end;
+}
+
+.header-social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  transition: opacity 0.15s ease;
+}
+
+.header-social-link:hover,
+.header-social-link:focus-visible {
+  opacity: 0.7;
+}
+
+.header-social-icon {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+.header-cta {
+  white-space: nowrap;
+}
+
+.nav-links {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links a {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 400;
+  color: var(--color-text);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: color 0.15s ease;
+  position: relative;
+  padding-bottom: 2px;
+}
+
+.nav-links a:hover {
+  color: var(--color-accent);
+}
+
+/* Active / current page link */
+.nav-links a[aria-current="page"],
+.nav-links a.active {
+  color: var(--color-accent);
+  font-weight: 500;
+}
+
+/* Underline indicator for active link */
+.nav-links a[aria-current="page"]::after,
+.nav-links a.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: var(--color-accent);
+}
+
+/* Hamburger toggle — hidden on desktop */
+.nav-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text);
+  font-size: 1.5rem;
+  line-height: 1;
+  padding: 0;
+  transition: color 0.15s ease;
+}
+
+.nav-toggle:hover {
+  color: var(--color-accent);
+}
+
+.nav-toggle:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+
+/* ==========================================================================
+   8. NAVIGATION BAR — MOBILE RESPONSIVE  (< 768 px)
+   ========================================================================== */
+
+@media (max-width: 767px) {
+
+  /* Collapse the 3-column grid to a wrapping flex row: logo | toggle+actions,
+     with the nav dropdown expanding full-width below */
+  .site-header {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  /* Show hamburger toggle */
+  .nav-toggle {
+    display: flex;
+  }
+
+  /* Hide social icons on mobile to keep the row compact; still available in the footer */
+  .header-social-link {
+    display: none;
+  }
+
+  .header-actions {
+    gap: 0.75rem;
+  }
+
+  .header-cta {
+    font-size: var(--text-xs);
+    padding: 0.4rem 0.9rem;
+  }
+
+  /* Hide nav links by default on mobile */
+  .nav-links {
+    display: none;
+  }
+
+  /* Open state — vertical dropdown */
+  .nav-links.open {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    width: 100%;
+    /* Expand below the header row */
+    order: 3;           /* pushes list below logo + toggle row */
+    padding: 0.5rem 0 1rem;
+    border-top: 1px solid var(--color-border);
+    background-color: var(--color-white);
+  }
+
+  .nav-links.open li {
+    width: 100%;
+  }
+
+  .nav-links.open a {
+    display: block;
+    width: 100%;
+    padding: 0.75rem var(--container-pad);
+    text-transform: uppercase;
+    font-size: var(--text-sm);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .nav-links.open a:last-child,
+  .nav-links.open li:last-child a {
+    border-bottom: none;
+  }
+
+  .nav-links.open a[aria-current="page"]::after,
+  .nav-links.open a.active::after {
+    display: none;  /* remove underline indicator; weight/color is enough */
+  }
+
+  /* Ensure logo and toggle sit in the same row */
+  .logo {
+    flex: 1;
+  }
+}
+
+
+/* ==========================================================================
+   9. FOOTER
+   ========================================================================== */
+
+.site-footer {
+  background-color: var(--color-text);
+  color: var(--color-white);
+  text-align: center;
+  padding: 1.5rem var(--container-pad) 1.5rem;
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  letter-spacing: 0.03em;
+}
+
+.site-footer p {
+  color: var(--color-white);
+  font-size: var(--text-xs);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Footer row - ANZIA, practice logo, and social icons clustered together, centred as a group */
+.footer-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.footer-col {
+  display: flex;
+  align-items: center;
+}
+
+.footer-col-left,
+.footer-col-center {
+  justify-content: center;
+}
+
+.footer-col-right {
+  justify-content: center;
+  gap: 0;
+}
+
+/* Stack into a single centred column on narrow screens */
+@media (max-width: 599px) {
+  .footer-row {
+    gap: 1.25rem;
+  }
+}
+
+.footer-logo-img {
+  height: 64px;
+  width: auto;
+  max-width: 220px;
+}
+
+/* NZRAB logo PNG has extra transparent padding baked in, so scale it up to
+   visually match the practice logo's height */
+.footer-logo-img-nzrab {
+  height: 90px;
+}
+
+/* Placeholder for a second logo (e.g. association/certification badge) */
+.footer-logo-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  min-width: 96px;
+  padding: 0 1rem;
+  border: 1px dashed var(--color-border);
+  color: var(--color-white);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.footer-social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  transition: opacity 0.15s ease;
+}
+
+.footer-social-link:hover,
+.footer-social-link:focus-visible {
+  opacity: 0.75;
+}
+
+.footer-social-icon {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+
+/* ==========================================================================
+   10. IMAGE PLACEHOLDERS
+   ========================================================================== */
+
+.img-placeholder {
+  background-color: var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  color: var(--color-muted);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  overflow: hidden;
+}
+
+/* Hero image placeholder */
+.hero-image {
+  min-height: 240px;   /* mobile default (<1024 px) */
+}
+
+@media (min-width: 1024px) {
+  .hero-image {
+    min-height: 400px;
+  }
+}
+
+/* Service card image placeholder */
+.service-card .img-placeholder {
+  min-height: 160px;
+}
+
+/* Portrait (About page) */
+.portrait-placeholder {
+  min-width: 200px;
+  min-height: 200px;
+}
+
+/* Project card image placeholder */
+.project-card .img-placeholder {
+  min-height: 150px;
+}
+
+
+/* ==========================================================================
+   11. HOME PAGE — HERO
+   Full-bleed split layout: photo fills one half, statement fills the other.
+   Text always sits on white/Shadowland, never directly on a brand colour.
+   ========================================================================== */
+
+.hero {
+  display: grid;
+  grid-template-columns: 1fr;
+  padding-top: 0;
+}
+
+@media (min-width: 900px) {
+  .hero {
+    grid-template-columns: 1.1fr 1fr;
+    min-height: 640px;
+  }
+}
+
+.hero-media {
+  width: 100%;
+  height: 320px;
+  overflow: hidden;
+}
+
+@media (min-width: 900px) {
+  .hero-media {
+    height: 100%;
+    order: 2;
+  }
+}
+
+.hero-media-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.hero-content {
+  max-width: 560px;
+  padding: 3rem var(--container-pad);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* Light grey wash fills the full-width column behind the text, matching
+     the hero row''s height (the grid cell stretches to match the photo). */
+  background-color: #f4f4f5;
+}
+
+@media (min-width: 900px) {
+  .hero-content {
+    order: 1;
+    padding: 3rem clamp(1.5rem, 6vw, 5rem);
+    max-width: none;
+  }
+}
+
+.hero-eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #BF8D3C;
+  margin-bottom: 1rem;
+}
+
+.hero-content h1 {
+  margin-bottom: 0.75rem;
+  font-size: clamp(2.25rem, 4vw, 3.25rem);
+  letter-spacing: -0.01em;
+}
+
+.hero-content .hero-subheading {
+  font-family: var(--font-heading);
+  font-size: var(--text-xl);
+  color: var(--color-text);
+  margin-bottom: 1.25rem;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.hero-content p {
+  margin-bottom: 2rem;
+  color: var(--color-muted);
+}
+
+/* Smaller "Get in touch" pill in the hero — the shared .btn-pizza-outline
+   sizing reads as an oversized bar next to the hero copy, so scale it down
+   here without affecting the About/Contact page use of the same class. */
+.hero-content .btn-pizza-outline {
+  align-self: flex-start;
+}
+
+
+/* ==========================================================================
+   12. HOME PAGE — VALUES
+   ========================================================================== */
+
+/* ---- Section heading ---- */
+.values-section {
+  text-align: center;
+  background-color: var(--color-bg);
+}
+
+.values-section h2 {
+  margin-bottom: 2.5rem;
+  font-size: clamp(2rem, 3vw, 2.75rem);
+}
+
+/* ---- Grid: mobile-first, single column default (<480px) ---- */
+.values-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* ---- 2-column at ≥480px (Req 5.4) ---- */
+@media (min-width: 480px) {
+  .values-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ---- 3-column at ≥768px (Req 5.3) ---- */
+@media (min-width: 768px) {
+  .values-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ---- Individual value item ---- */
+.value-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.75rem;
+  padding: 1.5rem 1rem;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.value-item:hover {
+  background-color: var(--color-bg);
+}
+
+/* Icon wrapper — larger circular colour badge behind each icon, enforces minimum 24x24px (Req 5.2) */
+.value-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  min-height: 24px;
+  width: 104px;
+  height: 104px;
+  border-radius: 50%;
+  color: var(--color-accent);
+  font-size: 1.75rem;   /* fallback for Unicode / emoji icons */
+  transition: transform 0.25s ease;
+}
+
+.value-item:hover .value-icon {
+  transform: scale(1.08);
+}
+
+.value-icon svg {
+  width: 32px;
+  height: 32px;
+  fill: var(--color-accent);
+}
+
+.value-icon-img {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+}
+
+/* Colour rotation across the six value badges, drawn from the Resene palette */
+.value-item-fire .value-icon {
+  background-color: rgba(143, 63, 42, 0.12);
+}
+
+.value-item-rivergum .value-icon {
+  background-color: rgba(98, 117, 100, 0.16);
+}
+
+.value-item-pizza .value-icon {
+  background-color: rgba(191, 141, 60, 0.16);
+}
+
+/* Label — uses heading font for visual hierarchy */
+.value-label {
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  font-weight: 500;
+  color: var(--color-text);
+  letter-spacing: 0.02em;
+}
+
+/* Description — body font, muted */
+.value-description {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+
+/* ==========================================================================
+   13. HOME PAGE — SERVICE CARDS
+   ========================================================================== */
+
+/* ---- Section heading ---- */
+.services-section h2 {
+  margin-bottom: 2.5rem;
+  text-align: center;
+}
+
+/* ---- Grid: mobile-first, stacked default (<768px) ---- */
+.service-cards-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+/* ---- 3-column at ≥768px (Req 6.5) ---- */
+@media (min-width: 768px) {
+  .service-cards-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ---- Individual service card: real photo, hover-lift, hairline border ---- */
+.service-card {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.service-card:hover {
+  box-shadow: 0 16px 32px rgba(38, 39, 44, 0.12);
+  transform: translateY(-4px);
+}
+
+.service-card-media {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.service-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.service-card:hover .service-card-img {
+  transform: scale(1.05);
+}
+
+.service-card-body {
+  padding: 1.75rem 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.service-card-title {
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  font-weight: 500;
+  color: var(--color-text);
+  margin-bottom: 0.5rem;
+}
+
+.service-card-body p {
+  font-size: var(--text-sm);
+  line-height: 1.7;
+  color: var(--color-muted);
+  margin: 0;
+}
+
+
+/* ==========================================================================
+   14. HOME PAGE — REGIONAL CTA
+   ========================================================================== */
+
+/* Full-bleed Kapiti Island photo; text sits low in the frame over the sand,
+   not over the island itself. A bottom-anchored gradient (Shadowland, not a
+   brand colour) darkens only the lower third so the island stays completely
+   clear while the message and button stay legible in white. */
+.regional-cta {
+  position: relative;
+  min-height: 840px;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.regional-cta-media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 75%;   /* keep the lower, sandy portion of the shot in frame */
+  z-index: -2;
+}
+
+.regional-cta-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(38, 39, 44, 0) 62%, rgba(38, 39, 44, 0.9) 100%);
+  z-index: -1;
+}
+
+.regional-cta-inner {
+  text-align: center;
+  padding: 0 1rem 0.5rem;
+  margin-top: auto;
+  position: relative;
+}
+
+.regional-cta p {
+  max-width: 1080px;
+  margin: 0 auto 2rem;
+  padding: 0;
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--color-white);
+  text-shadow: 0 2px 10px rgba(38, 39, 44, 0.55);
+}
+
+
+/* ==========================================================================
+   15. HOME PAGE — TESTIMONIALS SLIDER
+   Single client quote shown at a time; prev/next arrows plus dot navigation.
+   No external library — plain CSS + a small vanilla JS controller.
+   ========================================================================== */
+
+.testimonial-slider {
+  max-width: 900px;
+  margin: 1rem auto 0;
+}
+
+.testimonial-track {
+  position: relative;
+  min-height: 220px;
+  display: flex;
+  align-items: center;
+}
+
+.testimonial-slide {
+  width: 100%;
+  text-align: center;
+  padding: 1rem 0.5rem;
+  animation: testimonial-fade-in 0.4s ease;
+}
+
+@keyframes testimonial-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Quote text — italic (Req 8.4) */
+.testimonial-slide blockquote p {
+  font-style: italic;
+  font-family: var(--font-heading);
+  font-size: var(--text-xl);
+  line-height: 1.7;
+  color: var(--color-text);
+  margin: 0 0 1.25rem;
+}
+
+/* Attribution — bold (Req 8.4) */
+.testimonial-slide cite {
+  font-style: normal;
+  font-weight: 500;
+  font-size: var(--text-sm);
+  letter-spacing: 0.04em;
+  color: #BF8D3C;
+  display: block;
+}
+
+/* Prev / next / dots row */
+.testimonial-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.testimonial-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-white);
+  color: var(--color-text);
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.testimonial-arrow:hover,
+.testimonial-arrow:focus-visible {
+  border-color: #BF8D3C;
+  color: #BF8D3C;
+}
+
+.testimonial-dots {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.testimonial-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  background-color: var(--color-border);
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.testimonial-dot:hover,
+.testimonial-dot:focus-visible {
+  transform: scale(1.2);
+}
+
+.testimonial-dot.is-active {
+  background-color: #BF8D3C;
+}
+
+
+/* ==========================================================================
+   16. ABOUT PAGE
+   ========================================================================== */
+
+.about-section {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+@media (min-width: 768px) {
+  .about-section {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3rem;
+  }
+
+  /* Text on the left, portrait on the right (matches kwarchistudio.co.nz) */
+  .about-content {
+    order: 1;
+    flex: 1;
+  }
+
+  .about-portrait {
+    order: 2;
+  }
+}
+
+.about-portrait {
+  flex-shrink: 0;
+  width: 100%;
+  max-width: 280px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .about-portrait {
+    max-width: 280px;
+    margin: 0;
+  }
+}
+
+/* Circular portrait photo */
+.portrait-img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center 90%;   /* shift crop downward to show face and lap area */
+  display: block;
+}
+
+.about-portrait .img-placeholder {
+  min-width: 200px;
+  min-height: 200px;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+}
+
+.about-content h2 {
+  margin-bottom: 1rem;
+}
+
+.about-credentials {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+  margin-bottom: 1.5rem;
+  font-style: italic;
+}
+
+.about-bio p + p {
+  margin-top: 1.25rem;
+}
+
+
+/* ==========================================================================
+   17. PROCESS PAGE
+   A numbered card grid: each step is a clean, left-aligned card with a
+   colour accent bar along the top and a large numeral, arranged in a
+   responsive grid. Accent colour rotates through the Resene palette
+   (Fire / Half Rivergum / Pizza) so the sequence reads as a considered,
+   designed system rather than a plain numbered list.
+   ========================================================================== */
+
+.process-hero {
+  background-color: var(--color-bg);
+  padding: 3rem 0 1rem;
+}
+
+.process-hero h1 {
+  margin-bottom: 1.25rem;
+}
+
+.process-intro {
+  max-width: 740px;
+  margin-bottom: 0;
+  color: var(--color-muted);
+}
+
+.process-section {
+  padding-top: 1rem;
+}
+
+/* ---- Card grid ---- */
+.process-timeline {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.75rem;
+}
+
+@media (min-width: 640px) {
+  .process-timeline {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .process-timeline {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+}
+
+.process-step {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1.75rem 1.75rem;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-top: 4px solid currentColor;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.process-step:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(38, 39, 44, 0.08);
+}
+
+/* Large numeral - architectural typographic device, coloured per step */
+.process-step-number {
+  font-family: var(--font-heading);
+  font-size: var(--text-3xl);
+  font-weight: 500;
+  line-height: 1;
+  color: currentColor;
+  margin-bottom: 1rem;
+}
+
+.process-step-card {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* Step title — heading font, bold (Req 10.3) */
+.process-step-title {
+  font-family: var(--font-heading);
+  font-size: var(--text-xl);
+  font-weight: 500;
+  color: var(--color-text);
+  line-height: 1.3;
+  margin: 0 0 0.6rem;
+}
+
+/* Step description — body font */
+.process-step-description {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* Accent colour rotation, drawn from the Resene palette used elsewhere on
+   the site (Fire / Half Rivergum / Pizza). currentColor drives both the
+   top border and the numeral so each card reads as one coherent accent. */
+.process-step-fire {
+  color: var(--color-accent);
+}
+
+.process-step-rivergum {
+  color: var(--color-secondary);
+}
+
+.process-step-pizza {
+  color: #BF8D3C;
+}
+
+
+/* ==========================================================================
+   18. PROJECTS PAGE
+   Elegant, gallery-style listing for a sole-practitioner architecture studio.
+   ========================================================================== */
+
+.projects-section {
+  text-align: center;
+}
+
+.projects-eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #BF8D3C;
+  margin-bottom: 0.75rem;
+}
+
+.projects-section h1 {
+  margin-bottom: 1.25rem;
+}
+
+.projects-intro {
+  font-size: var(--text-lg);
+  line-height: 1.8;
+  color: var(--color-muted);
+  max-width: 560px;
+  margin: 0 auto 3.5rem;
+}
+
+/* ---- Grid: mobile-first, stacked default (<768px) ---- */
+.projects-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  text-align: left;
+}
+
+/* ---- 2-column at ≥600px, 3-column at ≥1024px ---- */
+@media (min-width: 600px) {
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .projects-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ---- Individual project card (clickable link to a detail page) ---- */
+.project-card {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+}
+
+.project-card-image-wrap {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  margin-bottom: 1.25rem;
+  background-color: var(--color-border);
+}
+
+.project-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+/* Acoustic Sliding Door card - shift the crop left so the full sliding
+   door (on the left of the source photo) stays in frame. */
+.project-card[href="project-acoustic-sliding-door.html"] .project-card-image {
+  object-position: left center;
+}
+
+.project-card:hover .project-card-image,
+.project-card:focus-visible .project-card-image {
+  transform: scale(1.04);
+}
+
+.project-card-eyebrow {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin: 0;
+}
+
+/* Eyebrow above the title (default order) */
+.project-card-eyebrow + .project-card-title {
+  margin-top: 0.4rem;
+}
+
+/* Card title */
+.project-card-title {
+  font-family: var(--font-heading);
+  font-size: var(--text-xl);
+  font-weight: 500;
+  color: var(--color-text);
+  margin: 0;
+  transition: color 0.15s ease;
+}
+
+/* Eyebrow below the title */
+.project-card-title + .project-card-eyebrow {
+  margin-top: 0.4rem;
+}
+
+.project-card:hover .project-card-title,
+.project-card:focus-visible .project-card-title {
+  color: #BF8D3C;
+}
+
+/* ---- "Coming soon" placeholder cards for future projects ---- */
+.project-card-placeholder {
+  cursor: default;
+}
+
+.project-card-placeholder .project-card-image-wrap {
+  background-color: transparent;
+  border: 1px dashed var(--color-border);
+}
+
+.project-card-image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.project-card-placeholder .project-card-eyebrow {
+  color: var(--color-border);
+}
+
+.project-card-title-placeholder {
+  color: var(--color-border);
+}
+
+
+/* ==========================================================================
+   PROJECT DETAIL PAGES
+   Editorial, gallery-led layout for a sole-practitioner architecture studio:
+   full-bleed hero, generous whitespace, hairline dividers instead of boxed
+   cards, and an asymmetric lead + row image gallery.
+   ========================================================================== */
+
+.project-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.project-back-link:hover,
+.project-back-link:focus-visible {
+  color: #BF8D3C;
+}
+
+/* Standalone "Back to Top" wrapper (Home page) - same quiet treatment as
+   the project detail pages'' closing CTA, just centred on its own with a
+   hairline divider above the footer. */
+.project-back-link-wrap {
+  text-align: center;
+  margin-top: 3rem;
+  padding: 2.5rem 1.5rem 3rem;
+  border-top: 1px solid var(--color-border);
+}
+
+/* Full-bleed hero photo - breaks out of the centred container to run edge
+   to edge of the viewport, for a striking lead image at the top of a
+   project page (Living Extension). */
+.project-hero-full-wrap {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  overflow: hidden;
+  margin-bottom: 3rem;
+}
+
+.project-hero-full {
+  width: 100%;
+  height: 46vw;
+  max-height: 680px;
+  min-height: 320px;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* Uncropped variant - shows the full photo at its natural aspect ratio
+   with no object-fit cropping (used for Black Box Studio). */
+.project-hero-full-uncropped {
+  height: auto;
+  max-height: none;
+  min-height: 0;
+  object-fit: contain;
+}
+
+/* Hero pair - two photos side by side at the top of the project page, each
+   shown at its natural aspect ratio (no cropping) so the full image width
+   is visible; height follows the column width automatically. */
+.project-hero-pair {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin: 1.5rem 0 3rem;
+}
+
+@media (min-width: 640px) {
+  .project-hero-pair {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+}
+
+.project-hero-pair-item {
+  width: 100%;
+  height: auto;
+  /* Match acoustic-door-01''s natural aspect ratio so both photos line up
+     at the same height; object-fit: cover trims only what is needed
+     (e.g. acoustic-door-02, which is very slightly taller) rather than
+     stretching or letterboxing either image. */
+  aspect-ratio: 1191 / 714;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  border-radius: 2px;
+}
+
+/* Eyebrow label above the title */
+.project-eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #BF8D3C;
+  margin-bottom: 0.75rem;
+}
+
+.project-detail h1 {
+  max-width: 760px;
+  margin-bottom: 1.5rem;
+}
+
+.project-detail-intro {
+  font-size: var(--text-lg);
+  line-height: 1.8;
+  color: var(--color-text);
+  max-width: 780px;
+  margin-bottom: 1.25rem;
+}
+
+.project-detail-intro:last-of-type {
+  margin-bottom: 3rem;
+}
+
+/* Meta row - hairline dividers, no box, quiet and editorial */
+.project-detail-meta {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.75rem;
+  padding: 1.75rem 0;
+  margin: 0 0 3.5rem;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+@media (min-width: 600px) {
+  .project-detail-meta {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.project-detail-meta-item dt {
+  font-size: var(--text-xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin-bottom: 0.4rem;
+}
+
+.project-detail-meta-item dd {
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  color: var(--color-text);
+  margin: 0;
+}
+
+/* Stacked photo gallery - each image keeps its natural aspect ratio, shown
+   in full with no forced box shape and no cropping (matches the Rocketspark
+   site layout: one full-width, uncropped photo after another). */
+.project-detail-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 4rem;
+}
+
+/* 2x2 layout: two columns of uncropped, natural-aspect-ratio photos (used
+   for the Beachfront Cottage gallery). Each row height is set by its own
+   tallest image, so nothing is stretched or cropped to a fixed box. */
+.project-detail-grid-2x2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-bottom: 4rem;
+}
+
+@media (min-width: 640px) {
+  .project-detail-grid-2x2 {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+}
+
+.project-grid-2x2-item {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  display: block;
+  border-radius: 2px;
+}
+
+/* Fallback height for placeholder <div> variants (no real image yet) */
+.img-placeholder.project-grid-2x2-item {
+  min-height: 220px;
+}
+
+.project-grid-item {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  display: block;
+  border-radius: 2px;
+}
+
+/* Feature layout: one large photo on the left, a 2x2 grid of four photos on
+   the right (used for the Acoustic Sliding Door closing gallery). */
+.project-detail-grid-feature {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .project-detail-grid-feature {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+}
+
+/* acoustic-door-03 is a portrait shot; sizing it to its own aspect ratio
+   (rather than a stretched box) shows the full photo with no cropping.
+   align-self: start stops the row''s align-items: stretch from forcing
+   this image into a taller box (which was letterboxing it with
+   whitespace above/below). The quad grid then matches its real height. */
+.project-grid-feature-item {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 900 / 1200;
+  object-fit: cover;
+  display: block;
+  border-radius: 2px;
+  align-self: start;
+}
+
+.project-grid-feature-quad {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 1rem;
+  /* Columns are equal width (1fr 1fr), so matching acoustic-door-03''s
+     aspect ratio here makes the quad the same height as image 3 with no
+     extra whitespace. */
+  aspect-ratio: 900 / 1200;
+  align-self: start;
+}
+
+.project-grid-feature-quad .project-grid-item {
+  height: 100%;
+  min-height: 0;
+  object-fit: cover;
+}
+
+/* ---- Photo-sequence player: turns a set of still frames into a lightweight,
+   video-like animation without a real video file ---- */
+.project-sequence {
+  margin-bottom: 4rem;
+  text-align: center;
+}
+
+.project-sequence-eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #BF8D3C;
+  margin-bottom: 1rem;
+}
+
+.project-sequence-player {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.project-sequence-frame-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background-color: var(--color-border);
+}
+
+.project-sequence-frame {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.project-sequence-play {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.project-sequence-play:hover,
+.project-sequence-play:focus-visible {
+  background-color: var(--color-white);
+  transform: translate(-50%, -50%) scale(1.06);
+}
+
+.project-sequence-play-icon {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.project-sequence-play.is-playing .project-sequence-play-icon {
+  font-size: 1.1rem;
+}
+
+.project-sequence-scrubber {
+  position: relative;
+  width: 100%;
+  height: 6px;
+  margin-top: 1rem;
+  background-color: var(--color-border);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.project-sequence-scrubber:focus-visible {
+  outline: 3px solid #BF8D3C;
+  outline-offset: 3px;
+}
+
+.project-sequence-scrubber-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 0%;
+  background-color: #BF8D3C;
+  border-radius: 999px;
+  transition: width 0.1s linear;
+}
+
+/* Client testimonial - quoted verbatim, same italic/bold treatment as the
+   home page testimonial slider for visual consistency, sits below the
+   gallery and above the closing CTA. */
+.project-testimonial-wrap {
+  border-top: 1px solid var(--color-border);
+}
+
+.project-testimonial {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 3rem 0;
+  text-align: center;
+}
+
+.project-testimonial blockquote p {
+  font-style: italic;
+  font-family: var(--font-heading);
+  font-size: var(--text-xl);
+  line-height: 1.7;
+  color: var(--color-text);
+  margin: 0 0 1.25rem;
+}
+
+.project-testimonial cite {
+  font-style: normal;
+  font-weight: 500;
+  font-size: var(--text-sm);
+  letter-spacing: 0.04em;
+  color: #BF8D3C;
+  display: block;
+}
+
+/* Closing CTA - quiet, centred, minimal */
+.project-detail-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.75rem;
+  text-align: center;
+  padding: 3.5rem 1.5rem 4rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.project-detail-cta p {
+  margin-bottom: 1.5rem;
+  font-family: var(--font-heading);
+  font-size: var(--text-xl);
+  color: var(--color-text);
+}
+
+.project-back-link-bottom {
+  margin-top: 0.25rem;
+}
+
+
+/* ==========================================================================
+   19. CONTACT PAGE & FORM
+   ========================================================================== */
+
+.contact-section {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+@media (min-width: 768px) {
+  .contact-section {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 4rem;
+  }
+}
+
+/* Contact info column */
+.contact-info {
+  flex-shrink: 0;
+}
+
+.contact-info h1 {
+  margin-bottom: 0.75rem;
+}
+
+.contact-subtext {
+  font-size: var(--text-base);
+  color: var(--color-text);
+  margin-bottom: 2rem;
+  max-width: 400px;
+}
+
+.contact-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  color: var(--color-text);
+}
+
+.contact-details a {
+  color: var(--color-text);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  transition: text-decoration-color 0.15s ease, color 0.15s ease;
+}
+
+.contact-details a:hover {
+  color: var(--color-accent-dk);
+  text-decoration-color: var(--color-accent-dk);
+}
+
+.contact-location {
+  font-weight: 500;
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  margin-top: 0.25rem;
+}
+
+
+.contact-location-label {
+  font-weight: 300;
+}
+/* ---- Contact Form ---- */
+.contact-form-wrap {
+  flex: 1;
+  min-width: 0;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-group label {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  border-radius: 0;
+  /* Minimum 44px touch target height (Req 14.4) */
+  min-height: 44px;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.form-group textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(143, 63, 42, 0.18);
+}
+
+/* Field-level validation error message */
+.field-error {
+  font-size: var(--text-xs);
+  color: #c0392b;
+  display: none;   /* shown by JS when invalid */
+}
+
+.field-error.visible {
+  display: block;
+}
+
+/* Invalid field border highlight */
+.form-group input[aria-invalid="true"],
+.form-group textarea[aria-invalid="true"] {
+  border-color: #c0392b;
+}
+
+/* Form-level success / error banners */
+.form-success,
+.form-error {
+  padding: 1rem 1.25rem;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  border-radius: 0;
+  margin-top: 0.5rem;
+}
+
+.form-success {
+  background-color: #eaf5ea;
+  color: #2d6a2d;
+  border: 1px solid #b2d8b2;
+}
+
+.form-error {
+  background-color: #fdecea;
+  color: #a93226;
+  border: 1px solid #f5b7b1;
+}
+
+/* Honeypot field — hidden from humans (Req 12.7, 15.5) */
+.honeypot-field {
+  display: none;
+}
+
+/* Submit button row */
+.form-submit {
+  margin-top: 0.5rem;
+}
+
+
+/* ==========================================================================
+   20. SCROLL REVEAL
+   Lightweight fade + rise-in effect applied to sections and cards as they
+   enter the viewport (see js/scroll-reveal.js). Falls back to fully visible
+   with no transition if JS fails to load, or if the visitor has reduced
+   motion enabled — content is never hidden-by-default from the markup.
+   ========================================================================== */
+
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+
+.scroll-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Content that was already in view on page load is marked visible
+   instantly by scroll-reveal.js, with no transition — this avoids the
+   "flash" of a fade-in on first paint or when navigating between pages. */
+.scroll-reveal.no-transition {
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+
+/* ==========================================================================
+   21. PAGE TRANSITIONS
+   Cross-fade between pages on navigation (see js/page-transition.js).
+   The fade-in on load is a pure CSS animation — it runs with or without
+   JS, so the page is never left blank if a script fails to load. The
+   fade-out on click is JS-driven and only engages for intercepted,
+   same-origin link clicks.
+   ========================================================================== */
+
+body {
+  animation: page-fade-in 0.6s ease both;
+}
+
+@keyframes page-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+body.page-fade-out {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body {
+    animation: none;
+  }
+
+  body.page-fade-out {
+    opacity: 1;
+    transition: none;
+  }
+}

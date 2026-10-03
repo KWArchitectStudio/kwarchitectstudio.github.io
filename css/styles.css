@@ -1177,22 +1177,18 @@ nav a:hover {
   to   { opacity: 1; }
 }
 
-/* Quote text — italic (Req 8.4) */
+
+/* Quote text — italic (Req 8.4). Sized to match the services body text
+   (.service-card-body p) across all screen sizes. */
 .testimonial-slide blockquote p {
   font-style: italic;
   font-family: var(--font-heading);
-  font-size: var(--text-xl);
+  font-size: var(--text-sm);
   line-height: 1.7;
   color: var(--color-text);
   margin: 0 0 1.25rem;
 }
 
-/* Mobile — match testimonial quote size to the services body text size */
-@media (max-width: 767px) {
-  .testimonial-slide blockquote p {
-    font-size: var(--text-sm);
-  }
-}
 
 /* Attribution — bold (Req 8.4) */
 .testimonial-slide cite {
